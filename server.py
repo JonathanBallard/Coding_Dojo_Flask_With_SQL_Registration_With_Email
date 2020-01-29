@@ -8,7 +8,7 @@ app.secret_key = "secretstuff"
 
 @app.route('/')
 def index():
-    mysql = connectToMySQL("basic_registration")
+    mysql = connectToMySQL("email_registration")
     users = mysql.query_db("SELECT * FROM users;")
     print(users)
     return render_template("index.html", all_users = users)
@@ -16,7 +16,7 @@ def index():
 
 @app.route('/register', methods=['POST'])
 def register():
-    mysql = connectToMySQL("basic_registration")
+    mysql = connectToMySQL("email_registration")
     users = mysql.query_db("SELECT * FROM users;")
     print(users)
     EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
@@ -67,7 +67,7 @@ def register():
     
     
     if isValid == True:
-        mysql = connectToMySQL("basic_registration")
+        mysql = connectToMySQL("email_registration")
         query = "INSERT INTO users (first_name, last_name, email, password) VALUES (%(fname)s, %(lname)s, %(email)s, %(pw)s);"
         data = {
             "fname": firstName,
@@ -77,7 +77,7 @@ def register():
         }
         new_user_id = mysql.query_db(query, data)
 
-        mysql = connectToMySQL("basic_registration")
+        mysql = connectToMySQL("email_registration")
         users = mysql.query_db("SELECT * FROM users;")
         print(users)
         flash('Success!')
